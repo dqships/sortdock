@@ -58,7 +58,7 @@ web/src/app/_components/marketing/ReleaseAction.tsx
 ## Behavior
 
 - The hero leads with the SortDock name, direct value copy, and an image-led product environment.
-- Download controls show `Coming soon` until the latest published GitHub release includes a Mac download, then link directly to that asset.
+- Download controls link to the live Mac App Store listing from `src/lib/release/appStoreRelease.ts`. The footer confirms availability on the Mac App Store.
 - The routing rail appears in the hero and landing strip. The rules section uses a compact ordered keyword example to show how a filename match takes priority over the file-type fallback.
 - On narrow screens, routing examples stay in one compact three-lane row instead of turning into tall stacked cards.
 - Product examples introduce their purpose before the visual on phones and tablets, then return to the visual-first card layout on wider screens.

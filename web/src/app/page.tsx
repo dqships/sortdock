@@ -1,8 +1,6 @@
 import { MarketingPage } from "~/app/_components/marketing/MarketingPage";
-import { getReleaseState } from "~/lib/release/getReleaseState";
+import { appStoreRelease } from "~/lib/release/appStoreRelease";
 
-export default async function Home() {
-  const releaseState = await getReleaseState();
-
-  return <MarketingPage releaseState={releaseState} />;
+export default function Home() {
+  return <MarketingPage releaseState={appStoreRelease} />;
 }

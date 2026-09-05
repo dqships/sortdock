@@ -1,26 +1,29 @@
 # GitHub Release Download State
 
-Last updated: 2026-08-13
+Last updated: 2026-09-05
 
 ## Purpose
 
-The marketing page must not show a dead download button before SortDock ships.
-It should switch from `Coming soon` to a real Mac download automatically when a
-public release is ready.
+SortDock is live on the Mac App Store. The marketing page uses
+`src/lib/release/appStoreRelease.ts` as its download source, linking to
+https://apps.apple.com/us/app/my-file-manager-sortdock/id6804060639.
 
-## Behavior
+## Current behavior
 
-- The home page asks GitHub for the latest published release on the server.
-- SortDock stays in the non-interactive `Coming soon` state when there is no
-  release, GitHub cannot be reached, or the release has no supported Mac asset.
-- A release becomes downloadable only when its asset list contains a `.dmg`,
-  `.pkg`, or `.zip` file with a secure URL.
-- The first supported asset becomes the direct download used by the navigation,
-  hero, and final action.
-- Next.js caches the GitHub response for 15 minutes. The website therefore
-  updates shortly after a release is published without checking GitHub on every
-  visit or requiring another website deployment.
-- GitHub's `releases/latest` endpoint excludes drafts and prereleases.
+- Navigation says `App Store`; hero and final actions say `Download on the App Store`.
+- All three actions open the same public listing.
+- The footer says `Available on the Mac App Store`.
+- The home page does not call GitHub, so missing installers or GitHub outages
+  cannot return the live site to `Coming soon`.
+- To change the listing, update the single URL in `appStoreRelease.ts` and deploy.
+
+## Optional GitHub installer flow
+
+The existing `getReleaseState` helper and its tests are retained for future
+direct distribution. It checks the latest published GitHub release for a secure
+`.dmg`, `.pkg`, or `.zip` asset, caches responses for 15 minutes, and returns
+`coming-soon` if no installer is available or the request fails. Drafts and
+prereleases are excluded. This helper is no longer used by the home page.
 
 ## Configuration
 
@@ -37,6 +40,7 @@ is server-only and must never use a `NEXT_PUBLIC_` prefix.
 ## Relevant Code
 
 ```text
+web/src/lib/release/appStoreRelease.ts
 web/src/lib/release/ReleaseState.ts
 web/src/lib/release/MacReleaseAsset.ts
 web/src/lib/release/isRecord.ts
@@ -54,14 +58,15 @@ web/src/app/page.tsx
 2. Create a non-draft GitHub release in `dqstartupbuild/downer`.
 3. Attach the distributable `.dmg`, `.pkg`, or `.zip` file to that release.
 4. Publish the release.
-5. Allow up to 15 minutes for the cached website state to refresh.
+5. If direct downloads are desired, explicitly wire the home page back to
+   `getReleaseState` and deploy. Publishing a GitHub release alone no longer
+   changes the App Store actions.
 
 GitHub's automatically generated source archives do not appear in the release
 asset list and therefore cannot accidentally activate the download action.
 
 ## Verification
 
-Vitest covers a valid Mac asset, a missing release, a release without a Mac
-asset, malformed data, unsafe URLs, and network failure. Browser verification
-confirms that the current no-release state is visible and is not rendered as a
-clickable download control.
+Vitest checks the App Store URL and labels in all three action placements,
+alongside the retained GitHub helper cases for missing releases, unsupported
+assets, malformed data, unsafe URLs, and network failure.

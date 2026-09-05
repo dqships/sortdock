@@ -19,14 +19,14 @@ Open `http://localhost:3000`.
 
 ## Release-aware download
 
-The site checks the latest published GitHub release every 15 minutes. It shows
-`Coming soon` until that release includes a `.dmg`, `.pkg`, or `.zip` asset. As
-soon as a supported asset is published, the same controls become direct
-downloads without another website deployment.
+The navigation, hero, and final download actions link to SortDock's live
+[Mac App Store listing](https://apps.apple.com/us/app/my-file-manager-sortdock/id6804060639).
+The destination is defined in `src/lib/release/appStoreRelease.ts`. The home
+page no longer depends on GitHub release availability.
 
-No environment variables are required for the default repository. Copy
-`.env.example` only when you need to override the public URL, release repository,
-or provide an optional read-only GitHub token.
+The previous GitHub installer flow remains available in the release helpers.
+See `Documentation/github-release-download.md` for its publishing instructions.
+Copy `.env.example` when you need to override the public site URL.
 
 ## Checks
 

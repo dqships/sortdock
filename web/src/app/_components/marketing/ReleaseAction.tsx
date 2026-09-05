@@ -31,9 +31,19 @@ export function ReleaseAction({ releaseState, placement }: ReleaseActionProps) {
       className={compact ? navClassName : primaryClassName}
       href={releaseState.downloadUrl}
       rel="noreferrer"
-      title={`${releaseState.version} download`}
+      title={
+        releaseState.status === "app-store"
+          ? "Download SortDock on the Mac App Store"
+          : `${releaseState.version} download`
+      }
     >
-      {compact ? "Download" : "Download for Mac"}
+      {releaseState.status === "app-store"
+        ? compact
+          ? "App Store"
+          : "Download on the App Store"
+        : compact
+          ? "Download"
+          : "Download for Mac"}
     </a>
   );
 }

@@ -6,9 +6,11 @@ type MarketingFooterProps = {
 
 export function MarketingFooter({ releaseState }: MarketingFooterProps) {
   const releaseLabel =
-    releaseState.status === "available"
-      ? `${releaseState.version} available`
-      : "Coming soon";
+    releaseState.status === "app-store"
+      ? "Available on the Mac App Store"
+      : releaseState.status === "available"
+        ? `${releaseState.version} available`
+        : "Coming soon";
 
   return (
     <footer className="bg-[var(--window)] px-5 py-8 md:px-10 lg:px-[72px]">
@@ -23,10 +25,30 @@ export function MarketingFooter({ releaseState }: MarketingFooterProps) {
         >
           GitHub
         </a>
-        <a className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]" href="/support">Support</a>
-        <a className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]" href="/privacy">Privacy</a>
-        <a className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]" href="/terms">Terms</a>
-        <a className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]" href="/acknowledgements">Acknowledgements</a>
+        <a
+          className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]"
+          href="/support"
+        >
+          Support
+        </a>
+        <a
+          className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]"
+          href="/privacy"
+        >
+          Privacy
+        </a>
+        <a
+          className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]"
+          href="/terms"
+        >
+          Terms
+        </a>
+        <a
+          className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]"
+          href="/acknowledgements"
+        >
+          Acknowledgements
+        </a>
       </div>
     </footer>
   );

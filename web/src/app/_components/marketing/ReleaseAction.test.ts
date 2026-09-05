@@ -2,9 +2,33 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
+import { appStoreRelease } from "~/lib/release/appStoreRelease";
+
 import { ReleaseAction } from "./ReleaseAction";
 
 describe("ReleaseAction", () => {
+  it.each(["hero", "nav", "final"] as const)(
+    "links the %s action to the live App Store listing",
+    (placement) => {
+      const markup = renderToStaticMarkup(
+        createElement(ReleaseAction, {
+          placement,
+          releaseState: appStoreRelease,
+        }),
+      );
+
+      expect(markup).toContain(
+        'href="https://apps.apple.com/us/app/my-file-manager-sortdock/id6804060639"',
+      );
+      expect(markup).toContain(
+        placement === "nav"
+          ? ">App Store</a>"
+          : ">Download on the App Store</a>",
+      );
+      expect(markup).not.toContain("Coming soon");
+    },
+  );
+
   it("renders coming soon as a non-interactive status", () => {
     const markup = renderToStaticMarkup(
       createElement(ReleaseAction, {
