@@ -47,25 +47,50 @@ What is needed:
 
 1. A paid Apple Developer Program membership (the one used for the App Store
    listing works).
-2. The account holder creates a **Developer ID Application** certificate in
-   Certificates, Identifiers & Profiles (or Xcode > Settings > Accounts >
-   Manage Certificates). This is a different certificate from the
+2. The account holder creates a **Developer ID Application** certificate:
+   Xcode > Settings > Accounts > select the team > Manage Certificates >
+   + > Developer ID Application. This is a different certificate from the
    "Apple Distribution" one used for App Store uploads.
-3. Export it from Keychain Access as a `.p12` with a password, then base64 it:
-   `base64 -i DeveloperID.p12 | pbcopy`.
-4. Create an app-specific password for the Apple ID at account.apple.com.
-5. Add these repository secrets:
+3. On that Mac, run the helper script from the repository root. Run it once
+   to find the certificate and read the export steps, then again with the
+   exported file:
+
+   ```sh
+   app/desktop/scripts/set-up-mac-signing.sh
+   app/desktop/scripts/set-up-mac-signing.sh ~/Desktop/DeveloperID.p12
+   ```
+
+   The script reads the team ID from the certificate, asks for the `.p12`
+   password, Apple ID, and an app-specific password (made at
+   account.apple.com > Sign-In and Security > App-Specific Passwords), and
+   stores them as repository secrets with the GitHub CLI (`brew install gh`,
+   then `gh auth login`). Nothing secret is printed or saved.
+
+The secrets it sets:
 
 | Secret | Value |
 | --- | --- |
-| `MAC_CERTIFICATE_P12_BASE64` | The base64 text of the `.p12` |
+| `MAC_CERTIFICATE_P12_BASE64` | The exported `.p12`, base64-encoded |
 | `MAC_CERTIFICATE_PASSWORD` | The `.p12` password |
 | `APPLE_ID` | The Apple ID email |
 | `APPLE_APP_SPECIFIC_PASSWORD` | The app-specific password |
-| `APPLE_TEAM_ID` | The 10-character team ID from the membership page |
+| `APPLE_TEAM_ID` | The 10-character team ID |
 
-With these set, `electron-builder` signs the app with the hardened runtime and
-sends it to Apple for notarization. Notarization is included in the membership.
+With these set, `electron-builder` signs the app with the hardened runtime,
+notarizes it with Apple, and staples the result. The workflow then checks the
+app with `codesign`, `spctl`, and `stapler` before uploading it. Notarization is
+included in the membership. Already signed and notarized downloads keep
+working if the membership later lapses; only new releases need it.
+
+### What happens without the Mac secrets
+
+The Mac build still runs, but it is uploaded only as an `unsigned-Mac` test
+artifact on the workflow run and is **not** added to the GitHub release. The
+website keeps sending Mac visitors to the App Store until a signed Mac
+installer is published. Windows is published either way.
+
+Each certificate is only passed to its own build, because electron-builder
+falls back to `CSC_LINK` on Windows.
 
 ### Windows: recommended
 
@@ -105,6 +130,7 @@ that touches `app/desktop`.
 .github/workflows/desktop-release.yml
 .github/workflows/desktop-ci.yml
 app/desktop/electron-builder.yml
+app/desktop/scripts/set-up-mac-signing.sh
 app/desktop/package.json
 web/src/lib/release/installerPatterns.ts
 ```

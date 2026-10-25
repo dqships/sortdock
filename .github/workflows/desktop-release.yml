@@ -42,21 +42,44 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
+      - name: Check Mac signing secrets
+        id: signing
+        if: matrix.name == 'Mac'
+        env:
+          HAS_CERTIFICATE: ${{ secrets.MAC_CERTIFICATE_P12_BASE64 != '' }}
+          HAS_NOTARY: ${{ secrets.APPLE_ID != '' && secrets.APPLE_APP_SPECIFIC_PASSWORD != '' && secrets.APPLE_TEAM_ID != '' }}
+        run: |
+          if [ "$HAS_CERTIFICATE" = "true" ] && [ "$HAS_NOTARY" = "true" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Mac signing secrets are missing. The Mac build is kept as an unsigned test artifact and is not published. Run app/desktop/scripts/set-up-mac-signing.sh on your Mac."
+          fi
       - name: Package installer
         run: npx electron-builder ${{ matrix.target }} --publish never
         env:
-          # All signing secrets are optional. Without them the installers are
-          # unsigned and Mac and Windows show extra warnings on first open.
-          CSC_LINK: ${{ secrets.MAC_CERTIFICATE_P12_BASE64 }}
-          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          WIN_CSC_LINK: ${{ secrets.WINDOWS_CERTIFICATE_PFX_BASE64 }}
-          WIN_CSC_KEY_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          # Each certificate is only given to its own build: electron-builder
+          # falls back to CSC_LINK on Windows, which must never be the Mac one.
+          CSC_LINK: ${{ matrix.name == 'Mac' && secrets.MAC_CERTIFICATE_P12_BASE64 || '' }}
+          CSC_KEY_PASSWORD: ${{ matrix.name == 'Mac' && secrets.MAC_CERTIFICATE_PASSWORD || '' }}
+          CSC_IDENTITY_AUTO_DISCOVERY: ${{ matrix.name == 'Mac' && steps.signing.outputs.ready == 'true' }}
+          APPLE_ID: ${{ matrix.name == 'Mac' && secrets.APPLE_ID || '' }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ matrix.name == 'Mac' && secrets.APPLE_APP_SPECIFIC_PASSWORD || '' }}
+          APPLE_TEAM_ID: ${{ matrix.name == 'Mac' && secrets.APPLE_TEAM_ID || '' }}
+          # Optional. Windows installers work unsigned, with a SmartScreen warning.
+          WIN_CSC_LINK: ${{ matrix.name == 'Windows' && secrets.WINDOWS_CERTIFICATE_PFX_BASE64 || '' }}
+          WIN_CSC_KEY_PASSWORD: ${{ matrix.name == 'Windows' && secrets.WINDOWS_CERTIFICATE_PASSWORD || '' }}
+      - name: Verify Mac signature and notarization
+        if: matrix.name == 'Mac' && steps.signing.outputs.ready == 'true'
+        run: |
+          app="$(find dist -maxdepth 2 -name 'SortDock.app' -type d | head -n 1)"
+          codesign --verify --deep --strict --verbose=2 "$app"
+          spctl --assess --type execute --verbose "$app"
+          xcrun stapler validate "$app"
       - uses: actions/upload-artifact@v4
         with:
-          name: sortdock-${{ matrix.name }}
+          # Only "release-" artifacts are published. An unsigned Mac build stays a test download.
+          name: ${{ (matrix.name == 'Windows' || steps.signing.outputs.ready == 'true') && 'release' || 'unsigned' }}-${{ matrix.name }}
           if-no-files-found: error
           path: |
             app/desktop/dist/*.dmg
@@ -72,6 +95,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
+          pattern: release-*
           path: installers
           merge-multiple: true
       - name: Create or update the release
