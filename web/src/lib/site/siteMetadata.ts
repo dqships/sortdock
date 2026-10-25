@@ -9,11 +9,12 @@ export const siteMetadata: Metadata = {
     template: "%s | SortDock",
   },
   description:
-    "SortDock sorts new Mac downloads by file type or words in the filename, then moves them to folders you choose.",
+    "SortDock sorts new downloads on Mac and Windows by file type or words in the filename, then moves them to folders you choose.",
   applicationName: "SortDock",
   keywords: [
     "Downloads organizer for Mac",
     "Mac file organizer",
+    "Downloads organizer for Windows",
     "automatic file sorting",
     "Downloads folder cleanup",
     "keyword file routing",
@@ -54,13 +55,14 @@ export const siteMetadata: Metadata = {
     url: "/",
     title: "Keep Downloads clean without babysitting every file.",
     description:
-      "Route Mac downloads by file type or words like invoice and receipt, then send them to folders you choose.",
+      "Route downloads on Mac or Windows by file type or words like invoice and receipt, then send them to folders you choose.",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "SortDock",
-    description: "Sort Mac downloads by file type or words in the filename.",
+    description:
+      "Sort downloads on Mac and Windows by file type or words in the filename.",
     images: ["/opengraph-image"],
   },
 };

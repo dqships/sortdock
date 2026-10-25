@@ -17,15 +17,17 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-## Release-aware download
+## Mac and Windows downloads
 
-The navigation, hero, and final download actions link to SortDock's live
-[Mac App Store listing](https://apps.apple.com/us/app/my-file-manager-sortdock/id6804060639).
-The destination is defined in `src/lib/release/appStoreRelease.ts`. The home
-page no longer depends on GitHub release availability.
+The hero and final sections offer SortDock for Mac and Windows, with the
+visitor's own computer first. `/download/mac` and `/download/windows` always
+redirect to the newest installer on the latest GitHub release. Until a Mac
+installer is published, Mac links to the
+[Mac App Store listing](https://apps.apple.com/us/app/my-file-manager-sortdock/id6804060639);
+until a Windows installer is published, Windows shows "coming soon".
 
-The previous GitHub installer flow remains available in the release helpers.
-See `Documentation/github-release-download.md` for its publishing instructions.
+Installers are built from `app/desktop` by the `Desktop release` GitHub
+workflow. See `Documentation/github-release-download.md`.
 Copy `.env.example` when you need to override the public site URL.
 
 ## Checks

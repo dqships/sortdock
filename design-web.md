@@ -397,7 +397,7 @@ ProductSlice.tsx
 BehaviorComparison.tsx
 RulesSection.tsx
 PrivacyProofSection.tsx
-MacFitSection.tsx
+DesktopFitSection.tsx
 FinalCtaSection.tsx
 Footer.tsx
 DesignTokens.css

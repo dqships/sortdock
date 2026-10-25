@@ -1,6 +1,9 @@
 import { MarketingPage } from "~/app/_components/marketing/MarketingPage";
-import { appStoreRelease } from "~/lib/release/appStoreRelease";
+import { getDesktopDownloads } from "~/lib/release/getDesktopDownloads";
 
-export default function Home() {
-  return <MarketingPage releaseState={appStoreRelease} />;
+// Check GitHub for new installers at most every 15 minutes.
+export const revalidate = 900;
+
+export default async function Home() {
+  return <MarketingPage downloads={await getDesktopDownloads()} />;
 }

@@ -1,16 +1,12 @@
-import type { ReleaseState } from "~/lib/release/ReleaseState";
+import type { DesktopDownloads } from "~/lib/release/DesktopDownloads";
+import { downloadAvailabilityLabel } from "~/lib/release/downloadAvailabilityLabel";
 
 type MarketingFooterProps = {
-  releaseState: ReleaseState;
+  downloads: DesktopDownloads;
 };
 
-export function MarketingFooter({ releaseState }: MarketingFooterProps) {
-  const releaseLabel =
-    releaseState.status === "app-store"
-      ? "Available on the Mac App Store"
-      : releaseState.status === "available"
-        ? `${releaseState.version} available`
-        : "Coming soon";
+export function MarketingFooter({ downloads }: MarketingFooterProps) {
+  const releaseLabel = downloadAvailabilityLabel(downloads);
 
   return (
     <footer className="bg-[var(--window)] px-5 py-8 md:px-10 lg:px-[72px]">

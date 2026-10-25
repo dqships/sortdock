@@ -3,7 +3,7 @@ import { ProofPointRow } from "~/app/_components/marketing/ProofPointRow";
 
 const proofPoints = [
   "Sort by file type, or use words like invoice and receipt for a more specific destination.",
-  "Pick any folder on your Mac. SortDock remembers it when you reopen the app.",
+  "Pick any folder on your computer. SortDock remembers it when you reopen the app.",
   "SortDock waits before moving so unfinished downloads are not touched.",
 ];
 

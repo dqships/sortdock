@@ -1,0 +1,35 @@
+name: Desktop app checks
+
+on:
+  pull_request:
+    paths:
+      - "app/desktop/**"
+      - ".github/workflows/desktop-*.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/desktop/**"
+      - ".github/workflows/desktop-*.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Typecheck, test, and build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app/desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/desktop/package-lock.json
+      - run: npm ci
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+      - run: npm run check
+      - run: npm run build

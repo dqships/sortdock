@@ -1,0 +1,41 @@
+appId: com.followusai.sortdock.desktop
+productName: SortDock
+copyright: Copyright © FollowUs AI LLC
+directories:
+  output: dist
+  buildResources: build
+files:
+  - out/**
+  - resources/**
+  - package.json
+artifactName: SortDock-${version}-${os}.${ext}
+mac:
+  category: public.app-category.productivity
+  icon: ../../assets/brand/icon/icon.png
+  hardenedRuntime: true
+  target:
+    - target: dmg
+      arch: universal
+  extendInfo:
+    NSDownloadsFolderUsageDescription: SortDock moves new files out of the folder you choose to watch.
+    NSDocumentsFolderUsageDescription: SortDock moves files into the folders you choose.
+    NSDesktopFolderUsageDescription: SortDock moves files into the folders you choose.
+dmg:
+  artifactName: SortDock-${version}-mac.${ext}
+win:
+  icon: ../../assets/brand/icon/icon.png
+  target:
+    - target: nsis
+      arch: x64
+nsis:
+  artifactName: SortDock-${version}-windows-setup.${ext}
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+linux:
+  icon: ../../assets/brand/icon/icon.png
+  target: AppImage
+  category: Utility
+publish: null

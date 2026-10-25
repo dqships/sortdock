@@ -1,0 +1,87 @@
+name: Desktop release
+
+# Push a tag like v1.0.0 (matching app/desktop/package.json) to build the
+# Mac and Windows installers and publish them as a GitHub release. The website
+# picks up the new installers within 15 minutes.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build for ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Mac
+            os: macos-latest
+            target: --mac
+          - name: Windows
+            os: windows-latest
+            target: --win
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: app/desktop
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/desktop/package-lock.json
+      - name: Check the tag matches the app version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - name: Package installer
+        run: npx electron-builder ${{ matrix.target }} --publish never
+        env:
+          # All signing secrets are optional. Without them the installers are
+          # unsigned and Mac and Windows show extra warnings on first open.
+          CSC_LINK: ${{ secrets.MAC_CERTIFICATE_P12_BASE64 }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          WIN_CSC_LINK: ${{ secrets.WINDOWS_CERTIFICATE_PFX_BASE64 }}
+          WIN_CSC_KEY_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sortdock-${{ matrix.name }}
+          if-no-files-found: error
+          path: |
+            app/desktop/dist/*.dmg
+            app/desktop/dist/*.exe
+
+  publish:
+    name: Publish GitHub release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: installers
+          merge-multiple: true
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release upload "$TAG" installers/* --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" installers/* --repo "$GITHUB_REPOSITORY" \
+              --title "SortDock $TAG" --generate-notes --verify-tag
+          fi

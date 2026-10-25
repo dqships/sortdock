@@ -4,7 +4,7 @@ Last updated: 2026-08-13
 
 ## Purpose
 
-The web marketing page presents SortDock as a compact macOS utility for keeping Downloads clean. The page is static, fast to scan, and focused on one idea: new files can move to the right folders while the user stays in control.
+The web marketing page presents SortDock as a compact Mac and Windows utility for keeping Downloads clean. The page is static, fast to scan, and focused on one idea: new files can move to the right folders while the user stays in control.
 
 ## Source References
 
@@ -47,18 +47,19 @@ web/src/app/_components/marketing/LandingStripSection.tsx
 web/src/app/_components/marketing/BehaviorComparison.tsx
 web/src/app/_components/marketing/RulesSection.tsx
 web/src/app/_components/marketing/PrivacyProofSection.tsx
-web/src/app/_components/marketing/MacFitSection.tsx
+web/src/app/_components/marketing/DesktopFitSection.tsx
 web/src/app/_components/marketing/FinalCtaSection.tsx
 web/src/app/_components/marketing/MarketingFooter.tsx
 web/src/app/_components/marketing/ProductSlice.tsx
 web/src/app/_components/marketing/ProofPointRow.tsx
-web/src/app/_components/marketing/ReleaseAction.tsx
+web/src/app/_components/marketing/DownloadActions.tsx
+web/src/app/_components/marketing/DownloadButton.tsx
 ```
 
 ## Behavior
 
 - The hero leads with the SortDock name, direct value copy, and an image-led product environment.
-- Download controls link to the live Mac App Store listing from `src/lib/release/appStoreRelease.ts`. The footer confirms availability on the Mac App Store.
+- The hero and final section show Mac and Windows downloads, with the visitor's own computer first. The nav links to the download section. The footer says which computers can download SortDock. See `github-release-download.md`.
 - The routing rail appears in the hero and landing strip. The rules section uses a compact ordered keyword example to show how a filename match takes priority over the file-type fallback.
 - On narrow screens, routing examples stay in one compact three-lane row instead of turning into tall stacked cards.
 - Product examples introduce their purpose before the visual on phones and tablets, then return to the visual-first card layout on wider screens.

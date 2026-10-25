@@ -11,7 +11,23 @@ pull requests so work does not get duplicated.
   you have permission. See [BRAND_ASSETS.md](BRAND_ASSETS.md).
 - Never add behavior that overwrites a user's files.
 
-## Set up the Mac app
+## Set up the Mac and Windows app
+
+```sh
+cd app/desktop
+npm ci
+npm run dev
+```
+
+Run its checks before opening a pull request:
+
+```sh
+cd app/desktop
+npm run check
+npm run build
+```
+
+## Set up the Mac App Store app
 
 1. Open `app/mac/SortDock/SortDock.xcodeproj` in Xcode.
 2. Select the `SortDock` scheme and run it on your Mac.

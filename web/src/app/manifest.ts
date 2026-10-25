@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "SortDock",
     short_name: "SortDock",
     description:
-      "Sort new Mac downloads by file type or words in the filename.",
+      "Sort new downloads on Mac and Windows by file type or words in the filename.",
     start_url: "/",
     display: "standalone",
     background_color: "#E9F4FA",
