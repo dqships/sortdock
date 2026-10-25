@@ -27,16 +27,6 @@ npm run check
 npm run build
 ```
 
-## Set up the Mac App Store app
-
-1. Open `app/mac/SortDock/SortDock.xcodeproj` in Xcode.
-2. Select the `SortDock` scheme and run it on your Mac.
-3. Before opening a pull request, build it from the repository root:
-
-```sh
-xcodebuild -project app/mac/SortDock/SortDock.xcodeproj -scheme SortDock -configuration Debug -destination 'platform=macOS' build
-```
-
 ## Set up the website
 
 ```sh

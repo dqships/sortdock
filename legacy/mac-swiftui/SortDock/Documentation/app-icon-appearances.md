@@ -31,7 +31,7 @@ The generated PNGs live in `web/public/icons`. Default, dark, and glass variants
 Run:
 
 ```sh
-app/mac/SortDock/AppStore/scripts/validate-icons.sh
+legacy/mac-swiftui/SortDock/AppStore/scripts/validate-icons.sh
 ```
 
 The validator checks every generated web and release-package PNG for its declared dimensions, PNG format, readability, and absence of an alpha channel. It also checks the legacy Mac icon slots and the Icon Composer source.

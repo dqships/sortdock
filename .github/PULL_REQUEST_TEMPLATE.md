@@ -9,7 +9,6 @@
 ## How was it checked?
 
 - [ ] I ran the desktop app checks, if I changed it.
-- [ ] I built the Mac App Store app, if I changed it.
 - [ ] I ran the relevant website checks, if I changed it.
 - [ ] I updated tests when the behavior changed.
 - [ ] I updated the related documentation.

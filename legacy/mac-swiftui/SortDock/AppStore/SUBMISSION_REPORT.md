@@ -56,7 +56,7 @@ Status: the previous 1.0 review submission is removed; build 1.0 (5) is validate
 - Format: JPEG
 - Alpha: none
 - Source: actual development UI composed in `AppStore/screenshot-editor`, the app-store-screenshots skill editor adapted to Mac-only use
-- Final path: `app/mac/SortDock/AppStore/screenshots/final/2880x1800`
+- Final path: `legacy/mac-swiftui/SortDock/AppStore/screenshots/final/2880x1800`
 - App Store Connect: 5 of 10 screenshots currently present; five matching validated files are ready locally for the owner to keep or replace manually
 
 ## Archive and upload

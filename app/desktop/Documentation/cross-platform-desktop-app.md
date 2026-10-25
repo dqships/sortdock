@@ -31,7 +31,7 @@ downloaded app does everything the Mac App Store version does:
 | Packaging | `electron-builder` makes a universal `.dmg` for Mac and an `.exe` installer for Windows. |
 | Distribution | GitHub Releases host the installers. The website's `/download/mac` and `/download/windows` links always point at the newest ones. |
 | Updates | The app checks the latest GitHub release at launch and at most hourly after that. When a newer installer exists for this computer it shows an update notice that opens the website download link. |
-| App Store app | `app/mac/SortDock` stays as the Mac App Store build. The two Mac apps use different app IDs so they can be installed side by side. |
+| App Store app | The SwiftUI app is retired to `legacy/mac-swiftui` as a read-only archive. The desktop app uses a different app ID, so it can sit beside an App Store copy someone already installed. |
 
 ## How It Works
 
@@ -76,8 +76,7 @@ downloaded app does everything the Mac App Store version does:
 ## Use Cases
 
 - A Windows user sends invoices to a Finance folder and installers to Apps.
-- A Mac user who prefers direct downloads uses the same rules as the App Store
-  version.
+- A Mac user moving from the App Store version sets up the same rules.
 - Someone pauses sorting from the tray while downloading many files.
 
 ## Tests
@@ -118,7 +117,7 @@ app/desktop/
 ## Source References
 
 - `project-brief.md`, `design-app.md`, `coding-guidelines.md`
-- `app/mac/SortDock/SortDock/State/SortDockStore.swift` (behavior source)
-- `app/mac/SortDock/Documentation/*` (feature behavior the port matches)
+- `legacy/mac-swiftui/SortDock/SortDock/State/SortDockStore.swift` (behavior source)
+- `legacy/mac-swiftui/SortDock/Documentation/*` (feature behavior the port matches)
 - `web/Documentation/github-release-download.md` (website download links)
 - `app/desktop/Documentation/desktop-release-pipeline.md`

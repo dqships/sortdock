@@ -4,9 +4,9 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "$0")/../../../../.." && pwd)"
 web_icons="$repo_root/web/public/icons"
-brand_icons="$repo_root/app/mac/SortDock/AppStore/brand/icons"
-app_icons="$repo_root/app/mac/SortDock/SortDock/Assets.xcassets/AppIcon.appiconset"
-composer_icon="$repo_root/app/mac/SortDock/SortDock/AppIcon.icon/icon.json"
+brand_icons="$repo_root/legacy/mac-swiftui/SortDock/AppStore/brand/icons"
+app_icons="$repo_root/legacy/mac-swiftui/SortDock/SortDock/Assets.xcassets/AppIcon.appiconset"
+composer_icon="$repo_root/legacy/mac-swiftui/SortDock/SortDock/AppIcon.icon/icon.json"
 
 sizes=(16 32 48 180 192 256 512 1024)
 variants=(default dark glass)

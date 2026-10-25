@@ -4,8 +4,8 @@ The `app/desktop` folder holds the SortDock app people download from the
 website. It runs on Mac and Windows from one TypeScript codebase built with
 Electron and React.
 
-The native SwiftUI app in `app/mac/SortDock` is still the Mac App Store
-version. Both apps share the same product rules: see
+It replaces the original SwiftUI Mac app, which is archived in
+`legacy/mac-swiftui`. See
 [Documentation/cross-platform-desktop-app.md](Documentation/cross-platform-desktop-app.md).
 
 ## Run it

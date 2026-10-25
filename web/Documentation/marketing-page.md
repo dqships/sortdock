@@ -12,7 +12,8 @@ The web marketing page presents SortDock as a compact Mac and Windows utility fo
 - `project-brief.md`
 - `coding-guidelines.md`
 - `AGENTS.md`
-- `app/mac/SortDock/Documentation/keyword-routing-and-custom-destinations.md`
+- `legacy/mac-swiftui/SortDock/Documentation/keyword-routing-and-custom-destinations.md`
+- `app/desktop/Documentation/cross-platform-desktop-app.md`
 
 ## Implementation
 

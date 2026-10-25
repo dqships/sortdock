@@ -1,6 +1,6 @@
 # SortDock macOS App Implementation
 
-SortDock now lives in the Xcode project at `app/mac/SortDock`.
+SortDock now lives in the Xcode project at `legacy/mac-swiftui/SortDock`.
 
 ## What It Does
 
@@ -34,5 +34,5 @@ Keyword rules are checked from top to bottom before file-type rules. Matching ig
 Build from the repo root:
 
 ```sh
-xcodebuild -project app/mac/SortDock/SortDock.xcodeproj -scheme SortDock -configuration Debug -destination 'platform=macOS' build
+xcodebuild -project legacy/mac-swiftui/SortDock/SortDock.xcodeproj -scheme SortDock -configuration Debug -destination 'platform=macOS' build
 ```
