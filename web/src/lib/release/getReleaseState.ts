@@ -5,7 +5,7 @@ import { readReleaseVersion } from "./readReleaseVersion";
 import type { ReleaseState } from "./ReleaseState";
 import { selectMacReleaseAsset } from "./selectMacReleaseAsset";
 
-const defaultRepository = "dqstartupbuild/downer";
+const defaultRepository = "dqships/sortdock";
 const releaseCheckIntervalSeconds = 900;
 
 export async function getReleaseState(

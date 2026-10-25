@@ -9,12 +9,12 @@ describe("selectMacReleaseAsset", () => {
         {
           name: "checksums.txt",
           browser_download_url:
-            "https://github.com/dqstartupbuild/downer/releases/download/v1/checksums.txt",
+            "https://github.com/dqships/sortdock/releases/download/v1/checksums.txt",
         },
         {
           name: "SortDock.dmg",
           browser_download_url:
-            "https://github.com/dqstartupbuild/downer/releases/download/v1/SortDock.dmg",
+            "https://github.com/dqships/sortdock/releases/download/v1/SortDock.dmg",
         },
       ],
     };
@@ -22,7 +22,7 @@ describe("selectMacReleaseAsset", () => {
     expect(selectMacReleaseAsset(release)).toEqual({
       name: "SortDock.dmg",
       downloadUrl:
-        "https://github.com/dqstartupbuild/downer/releases/download/v1/SortDock.dmg",
+        "https://github.com/dqships/sortdock/releases/download/v1/SortDock.dmg",
     });
   });
 

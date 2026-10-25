@@ -20,7 +20,7 @@ export function MarketingFooter({ releaseState }: MarketingFooterProps) {
         <span>Sorting stays local.</span>
         <a
           className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]"
-          href="https://github.com/dqstartupbuild/downer"
+          href="https://github.com/dqships/sortdock"
           rel="noreferrer"
         >
           GitHub

@@ -50,14 +50,14 @@ describe("ReleaseAction", () => {
           status: "available",
           version: "v1.0.0",
           downloadUrl:
-            "https://github.com/dqstartupbuild/downer/releases/download/v1.0.0/SortDock.dmg",
+            "https://github.com/dqships/sortdock/releases/download/v1.0.0/SortDock.dmg",
         },
       }),
     );
 
     expect(markup).toContain("Download for Mac");
     expect(markup).toContain(
-      'href="https://github.com/dqstartupbuild/downer/releases/download/v1.0.0/SortDock.dmg"',
+      'href="https://github.com/dqships/sortdock/releases/download/v1.0.0/SortDock.dmg"',
     );
   });
 });

@@ -15,7 +15,7 @@ describe("getReleaseState", () => {
           {
             name: "SortDock.dmg",
             browser_download_url:
-              "https://github.com/dqstartupbuild/downer/releases/download/v1.0.0/SortDock.dmg",
+              "https://github.com/dqships/sortdock/releases/download/v1.0.0/SortDock.dmg",
           },
         ],
       }),
@@ -25,13 +25,13 @@ describe("getReleaseState", () => {
       status: "available",
       version: "v1.0.0",
       downloadUrl:
-        "https://github.com/dqstartupbuild/downer/releases/download/v1.0.0/SortDock.dmg",
+        "https://github.com/dqships/sortdock/releases/download/v1.0.0/SortDock.dmg",
     });
     const requestCall = request.mock.calls[0];
     const requestInit = requestCall?.[1] as NextFetchInit | undefined;
 
     expect(requestCall?.[0]).toBe(
-      "https://api.github.com/repos/dqstartupbuild/downer/releases/latest",
+      "https://api.github.com/repos/dqships/sortdock/releases/latest",
     );
     expect(requestInit?.headers).toMatchObject({
       Accept: "application/vnd.github+json",

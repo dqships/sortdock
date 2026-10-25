@@ -27,7 +27,7 @@ prereleases are excluded. This helper is no longer used by the home page.
 
 ## Configuration
 
-The default repository is `dqstartupbuild/downer`. It can be changed with:
+The default repository is `dqships/sortdock`. It can be changed with:
 
 ```text
 SORTDOCK_GITHUB_REPOSITORY=owner/repository
@@ -55,7 +55,7 @@ web/src/app/page.tsx
 ## Release Steps
 
 1. Build, sign, and notarize the Mac app.
-2. Create a non-draft GitHub release in `dqstartupbuild/downer`.
+2. Create a non-draft GitHub release in `dqships/sortdock`.
 3. Attach the distributable `.dmg`, `.pkg`, or `.zip` file to that release.
 4. Publish the release.
 5. If direct downloads are desired, explicitly wire the home page back to

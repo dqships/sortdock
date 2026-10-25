@@ -16,7 +16,7 @@ and sharing someone else's private information are not.
 ## Reporting a concern
 
 For conduct concerns, contact the project maintainer privately through the
-[dqstartupbuild GitHub profile](https://github.com/dqstartupbuild). Please
+[dqships GitHub profile](https://github.com/dqships). Please
 include enough detail to help us understand what happened. Reports will be
 handled as privately as practical.
 

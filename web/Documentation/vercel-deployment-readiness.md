@@ -54,7 +54,7 @@ app icon, and a generated social image that uses the real SortDock brand asset.
 
 ```text
 SITE_URL=https://your-domain.example
-SORTDOCK_GITHUB_REPOSITORY=dqstartupbuild/downer
+SORTDOCK_GITHUB_REPOSITORY=dqships/sortdock
 GITHUB_RELEASE_TOKEN=
 ```
 
