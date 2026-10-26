@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Privacy", description: "SortDock privacy information." };
+import { pageMetadata } from "~/lib/site/pageMetadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Privacy: Your Files Stay on Your Computer",
+  description:
+    "SortDock sorts files only on your computer. No accounts, analytics, tracking, or cloud sync. What it stores locally, and what it never sends.",
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return <main className="mx-auto max-w-3xl px-6 py-16 text-[var(--ink)]"><h1 className="font-serif text-5xl">Privacy</h1><section className="mt-8 space-y-5"><p>SortDock processes filenames and files only on your computer. It stores your selected folder paths, rules, preferences, and activity history locally on your computer.</p><p>SortDock works only with folders you select. The Mac App Store version uses security-scoped bookmarks so macOS can restore access to those folders after you reopen the app.</p><p>SortDock has no accounts, analytics, advertising, tracking, cloud sync, or network telemetry. It does not send your files, filenames, rules, or activity history to Follow Us AI. To tell you about new versions, SortDock asks the App Store (Mac App Store version) or GitHub (downloaded version) which version is newest. That check sends nothing about your files.</p><p>You can clear visible activity history from SortDock. Removing SortDock’s local app data removes its stored settings.</p><p>This website may process standard hosting request logs. If you email support, your email provider and ours process the information you include so we can reply.</p><p>Questions: <a className="font-semibold text-[var(--accent-deep)]" href="mailto:dq@followusai.com">dq@followusai.com</a>.</p></section></main>;

@@ -29,8 +29,11 @@ metadata, `robots.txt`, and `sitemap.xml`.
 - Next.js 16.3.0 and React 19.2.8 are pinned to a tested framework pair.
 - The production dependency audit reports no known vulnerabilities.
 - The `X-Powered-By` response header is disabled.
-- Responses include `nosniff`, clickjacking, referrer, and unused browser
-  capability protections.
+- Responses include a Content Security Policy, `nosniff`, clickjacking,
+  referrer, and unused browser capability protections. The policy only allows
+  same-origin scripts, styles, images, fonts, and requests. Download buttons are
+  plain links, so GitHub and App Store downloads are unaffected. Add any new
+  third-party host to `contentSecurityPolicy` in `next.config.js`.
 - The home page is regenerated at most every 15 minutes with the latest GitHub
   release, or right away when the release workflow posts to the optional
   `VERCEL_DEPLOY_HOOK_URL`. If GitHub is unreachable, Mac still links to the
