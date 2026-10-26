@@ -3,7 +3,7 @@ import { ProofPointRow } from "~/app/_components/marketing/ProofPointRow";
 const proofItems = [
   {
     text: "Local preferences",
-    detail: "Your rules live on your Mac.",
+    detail: "Your rules live on your computer.",
   },
   {
     text: "No accounts",

@@ -37,7 +37,7 @@ web/src/app/_components/marketing/LandingStripSection.tsx
 web/src/app/_components/marketing/BehaviorComparison.tsx
 web/src/app/_components/marketing/RulesSection.tsx
 web/src/app/_components/marketing/PrivacyProofSection.tsx
-web/src/app/_components/marketing/MacFitSection.tsx
+web/src/app/_components/marketing/DesktopFitSection.tsx
 web/src/app/_components/marketing/FinalCtaSection.tsx
 web/src/app/_components/marketing/MarketingFooter.tsx
 ```

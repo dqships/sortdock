@@ -1,14 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { ReleaseAction } from "~/app/_components/marketing/ReleaseAction";
-import type { ReleaseState } from "~/lib/release/ReleaseState";
-
-type MarketingNavProps = {
-  releaseState: ReleaseState;
-};
-
-export function MarketingNav({ releaseState }: MarketingNavProps) {
+export function MarketingNav() {
   return (
     <header className="absolute top-0 left-0 z-30 w-full px-5 py-5 md:px-10 lg:px-[72px]">
       <nav
@@ -49,7 +42,12 @@ export function MarketingNav({ releaseState }: MarketingNavProps) {
           >
             Privacy
           </Link>
-          <ReleaseAction releaseState={releaseState} placement="nav" />
+          <Link
+            href="#download"
+            className="inline-flex min-h-11 items-center justify-center rounded-[8px] bg-[var(--accent-soft)] px-4 text-sm font-semibold text-[var(--tag-text)] transition-colors outline-none hover:bg-[var(--line-strong)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--focus)]"
+          >
+            Download
+          </Link>
         </div>
       </nav>
     </header>

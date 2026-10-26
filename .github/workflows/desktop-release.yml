@@ -1,0 +1,111 @@
+name: Desktop release
+
+# Push a tag like v1.0.0 (matching app/desktop/package.json) to build the
+# Mac and Windows installers and publish them as a GitHub release. The website
+# picks up the new installers within 15 minutes.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build for ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Mac
+            os: macos-latest
+            target: --mac
+          - name: Windows
+            os: windows-latest
+            target: --win
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: app/desktop
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/desktop/package-lock.json
+      - name: Check the tag matches the app version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - name: Check Mac signing secrets
+        id: signing
+        if: matrix.name == 'Mac'
+        env:
+          HAS_CERTIFICATE: ${{ secrets.MAC_CERTIFICATE_P12_BASE64 != '' }}
+          HAS_NOTARY: ${{ secrets.APPLE_ID != '' && secrets.APPLE_APP_SPECIFIC_PASSWORD != '' && secrets.APPLE_TEAM_ID != '' }}
+        run: |
+          if [ "$HAS_CERTIFICATE" = "true" ] && [ "$HAS_NOTARY" = "true" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Mac signing secrets are missing. The Mac build is kept as an unsigned test artifact and is not published. Run app/desktop/scripts/set-up-mac-signing.sh on your Mac."
+          fi
+      - name: Package installer
+        run: npx electron-builder ${{ matrix.target }} --publish never
+        env:
+          # Each certificate is only given to its own build: electron-builder
+          # falls back to CSC_LINK on Windows, which must never be the Mac one.
+          CSC_LINK: ${{ matrix.name == 'Mac' && secrets.MAC_CERTIFICATE_P12_BASE64 || '' }}
+          CSC_KEY_PASSWORD: ${{ matrix.name == 'Mac' && secrets.MAC_CERTIFICATE_PASSWORD || '' }}
+          CSC_IDENTITY_AUTO_DISCOVERY: ${{ matrix.name == 'Mac' && steps.signing.outputs.ready == 'true' }}
+          APPLE_ID: ${{ matrix.name == 'Mac' && secrets.APPLE_ID || '' }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ matrix.name == 'Mac' && secrets.APPLE_APP_SPECIFIC_PASSWORD || '' }}
+          APPLE_TEAM_ID: ${{ matrix.name == 'Mac' && secrets.APPLE_TEAM_ID || '' }}
+          # Optional. Windows installers work unsigned, with a SmartScreen warning.
+          WIN_CSC_LINK: ${{ matrix.name == 'Windows' && secrets.WINDOWS_CERTIFICATE_PFX_BASE64 || '' }}
+          WIN_CSC_KEY_PASSWORD: ${{ matrix.name == 'Windows' && secrets.WINDOWS_CERTIFICATE_PASSWORD || '' }}
+      - name: Verify Mac signature and notarization
+        if: matrix.name == 'Mac' && steps.signing.outputs.ready == 'true'
+        run: |
+          app="$(find dist -maxdepth 2 -name 'SortDock.app' -type d | head -n 1)"
+          codesign --verify --deep --strict --verbose=2 "$app"
+          spctl --assess --type execute --verbose "$app"
+          xcrun stapler validate "$app"
+      - uses: actions/upload-artifact@v4
+        with:
+          # Only "release-" artifacts are published. An unsigned Mac build stays a test download.
+          name: ${{ (matrix.name == 'Windows' || steps.signing.outputs.ready == 'true') && 'release' || 'unsigned' }}-${{ matrix.name }}
+          if-no-files-found: error
+          path: |
+            app/desktop/dist/*.dmg
+            app/desktop/dist/*.exe
+
+  publish:
+    name: Publish GitHub release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: release-*
+          path: installers
+          merge-multiple: true
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release upload "$TAG" installers/* --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" installers/* --repo "$GITHUB_REPOSITORY" \
+              --title "SortDock $TAG" --generate-notes --verify-tag
+          fi

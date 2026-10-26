@@ -1,21 +1,28 @@
 # SortDock
 
-SortDock is a small macOS app that keeps a chosen folder tidy. Set up where file types should go, then let SortDock ask before moving them or handle the sorting automatically.
+SortDock is a small Mac and Windows app that keeps a chosen folder tidy. Set up where file types should go, then let SortDock ask before moving them or handle the sorting automatically.
 
 ## Project layout
 
-- `app/mac/SortDock`: the native macOS app.
-- `web`: the SortDock website.
-- `app/mac/SortDock/Documentation` and `web/Documentation`: product and
+- `app/desktop`: the Mac and Windows app people download from the website
+  (Electron, React, TypeScript).
+- `web`: the SortDock website, including the Mac and Windows download links.
+- `app/desktop/Documentation` and `web/Documentation`: product and
   implementation notes.
+- `legacy/mac-swiftui`: the retired SwiftUI Mac App Store app, kept as an
+  archive and behavior reference. It is no longer developed.
 
 ## Getting started
 
-Build the Mac app with Xcode or run:
+Run the Mac and Windows app:
 
 ```sh
-xcodebuild -project app/mac/SortDock/SortDock.xcodeproj -scheme SortDock -configuration Debug -destination 'platform=macOS' build
+cd app/desktop
+npm ci
+npm run dev
 ```
+
+See [app/desktop/README.md](app/desktop/README.md) for checks and installers.
 
 To work on the website, see [web/README.md](web/README.md).
 

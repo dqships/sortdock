@@ -2,7 +2,8 @@ import { ImageResponse } from "next/og";
 
 import { readBrandIconDataUrl } from "~/lib/site/readBrandIconDataUrl";
 
-export const alt = "SortDock sorts Mac downloads by file type or filename";
+export const alt =
+  "SortDock sorts downloads on Mac and Windows by file type or filename";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

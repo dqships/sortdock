@@ -31,7 +31,8 @@ metadata, `robots.txt`, and `sitemap.xml`.
 - The `X-Powered-By` response header is disabled.
 - Responses include `nosniff`, clickjacking, referrer, and unused browser
   capability protections.
-- The static home page links directly to the Mac App Store without a GitHub request.
+- The home page is regenerated at most every 15 minutes with the latest GitHub
+  release. If GitHub is unreachable, Mac still links to the App Store.
 - The marketing page remains a Server Component tree and does not load the
   unused tRPC client provider.
 
@@ -76,4 +77,4 @@ npm audit
 
 The browser audit covers desktop, mobile, dark appearance, keyboard focus,
 working in-page navigation, crawler endpoints, the social image, security
-headers, and the live App Store download actions.
+headers, and the Mac and Windows download actions.

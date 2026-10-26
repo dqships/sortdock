@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-import { ReleaseAction } from "~/app/_components/marketing/ReleaseAction";
-import type { ReleaseState } from "~/lib/release/ReleaseState";
+import { DownloadActions } from "~/app/_components/marketing/DownloadActions";
+import type { DesktopDownloads } from "~/lib/release/DesktopDownloads";
 
 type FinalCtaSectionProps = {
-  releaseState: ReleaseState;
+  downloads: DesktopDownloads;
 };
 
-export function FinalCtaSection({ releaseState }: FinalCtaSectionProps) {
+export function FinalCtaSection({ downloads }: FinalCtaSectionProps) {
   return (
     <section
       id="download"
@@ -29,7 +29,7 @@ export function FinalCtaSection({ releaseState }: FinalCtaSectionProps) {
         </div>
 
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center md:justify-end">
-          <ReleaseAction releaseState={releaseState} placement="final" />
+          <DownloadActions downloads={downloads} />
           <Link
             href="#how-it-works"
             className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-[var(--ink)] transition-colors outline-none hover:text-[var(--accent-deep)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--focus)]"
