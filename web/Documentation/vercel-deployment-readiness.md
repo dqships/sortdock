@@ -32,7 +32,9 @@ metadata, `robots.txt`, and `sitemap.xml`.
 - Responses include `nosniff`, clickjacking, referrer, and unused browser
   capability protections.
 - The home page is regenerated at most every 15 minutes with the latest GitHub
-  release. If GitHub is unreachable, Mac still links to the App Store.
+  release, or right away when the release workflow posts to the optional
+  `VERCEL_DEPLOY_HOOK_URL`. If GitHub is unreachable, Mac still links to the
+  App Store.
 - The marketing page remains a Server Component tree and does not load the
   unused tRPC client provider.
 

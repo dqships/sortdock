@@ -37,7 +37,9 @@ website finds the newest ones and gives them stable links.
   `.dmg`/`.pkg` (Mac) or `.exe`/`.msi` (Windows). Checksums, blockmaps, and
   GitHub's source archives are never selected.
 - `buildDesktopDownloads` turns the release into one `DownloadOption` per
-  computer for the page. The home page revalidates every 15 minutes.
+  computer for the page. The home page revalidates every 15 minutes, and the
+  `Desktop release` workflow can trigger a Vercel deploy hook to rebuild it
+  right after a release (see `app/desktop/Documentation/desktop-release-pipeline.md`).
 - `resolveDownloadTarget` gives the redirect target for the download route.
 - `DownloadActions` is the only client component. It reads the browser's
   platform after hydration to reorder the buttons, so the server-rendered page

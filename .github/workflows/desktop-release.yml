@@ -2,7 +2,7 @@ name: Desktop release
 
 # Push a tag like v1.0.0 (matching app/desktop/package.json) to build the
 # Mac and Windows installers and publish them as a GitHub release. The website
-# picks up the new installers within 15 minutes.
+# rebuilds right away when VERCEL_DEPLOY_HOOK_URL is set, or within 15 minutes.
 on:
   push:
     tags: ["v*"]
@@ -109,3 +109,13 @@ jobs:
             gh release create "$TAG" installers/* --repo "$GITHUB_REPOSITORY" \
               --title "SortDock $TAG" --generate-notes --verify-tag
           fi
+      - name: Refresh the website
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "::warning::VERCEL_DEPLOY_HOOK_URL is not set. The website picks up the new installers on its own within about 15 minutes."
+            exit 0
+          fi
+          curl --fail --silent --show-error --request POST "$DEPLOY_HOOK_URL" > /dev/null
+          echo "Asked Vercel to rebuild the website with the new release."

@@ -1,12 +1,13 @@
 # Desktop Release Pipeline
 
-Last updated: 2026-10-25
+Last updated: 2026-10-26
 
 ## What It Does
 
 Pushing a version tag builds SortDock for Mac and Windows on GitHub's own Mac
 and Windows machines and publishes both installers to one GitHub release. The
-website then offers them within 15 minutes.
+website then rebuilds right away when the Vercel deploy hook is set up, or
+offers them within 15 minutes otherwise.
 
 ## Release Steps
 
@@ -24,7 +25,8 @@ website then offers them within 15 minutes.
    - runs `npm run check` and `npm run build` on Mac and Windows,
    - packages `SortDock-<version>-mac.dmg` (Apple silicon and Intel) and
      `SortDock-<version>-windows-setup.exe`,
-   - creates the `v<version>` GitHub release, or adds to it if it exists.
+   - creates the `v<version>` GitHub release, or adds to it if it exists,
+   - asks Vercel to rebuild the website (see "Website refresh" below).
 4. Check the release page, then open `/download/mac` and `/download/windows` on
    the website.
 
@@ -106,6 +108,29 @@ only help if you have an exportable certificate. For a new certificate, a cloud
 signing service such as Azure Trusted Signing is the usual choice for GitHub
 Actions and needs a small change to the `win` section of
 `electron-builder.yml` and the workflow.
+
+## Website Refresh
+
+The home page caches GitHub's latest release for 15 minutes, so without help a
+new release can take that long to show on the download buttons. The
+`/download/mac` and `/download/windows` links are not affected.
+
+To make the website rebuild as soon as the release is published:
+
+1. In Vercel, open the `sortdock` project > Settings > Git > Deploy Hooks.
+2. Create a hook named `Desktop release` for the `main` branch and copy its URL.
+3. Store it as a repository secret:
+
+   ```sh
+   gh secret set VERCEL_DEPLOY_HOOK_URL --repo dqships/sortdock
+   ```
+
+   Paste the URL when asked. Treat it like a password: anyone with the URL can
+   start a deployment.
+
+The `Refresh the website` step posts to that URL after the release exists. When
+the secret is missing, the step only prints a warning and the website catches
+up on its own within 15 minutes.
 
 ## Local Builds
 
