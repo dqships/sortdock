@@ -23,6 +23,12 @@ export function MarketingFooter({ downloads }: MarketingFooterProps) {
         </a>
         <a
           className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]"
+          href="/about"
+        >
+          About
+        </a>
+        <a
+          className="font-semibold text-[var(--ink)] transition-colors hover:text-[var(--accent-deep)]"
           href="/support"
         >
           Support
