@@ -51,4 +51,7 @@ When importing the Git repository into Vercel:
   `NEXT_PUBLIC_` variable.
 
 Vercel Git integration will build preview deployments for branches and production
-deployments from the configured production branch.
+deployments from the configured production branch, except where
+`scripts/vercel-ignore-build.mjs` (the `ignoreCommand` in `web/vercel.json`)
+skips them: previews on `claude/` and `codex/` branches, and pushes that change
+nothing in `web/`.
