@@ -20,14 +20,15 @@ export const siteMetadata: Metadata = {
     "keyword file routing",
   ],
   alternates: { canonical: "/" },
+  // Files in public/icons come from scripts/generate-site-icons.mjs.
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icons/sortdock-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icons/sortdock-96.png", sizes: "96x96", type: "image/png" },
       { url: "/icons/sortdock-192.png", sizes: "192x192", type: "image/png" },
       {
-        url: "/icons/sortdock-dark-32.png",
-        sizes: "32x32",
+        url: "/icons/sortdock-dark-96.png",
+        sizes: "96x96",
         type: "image/png",
         media: "(prefers-color-scheme: dark)",
       },
